@@ -1,0 +1,69 @@
+# Function to input student names for a sport
+def input_students(sport_name):
+    print(f"Enter the names of students who play {sport_name} (comma-separated):")
+    students = input().split(",")
+    return [student.strip() for student in students]
+
+# Function to find the intersection of two lists (common elements)
+def intersection(list1, list2):
+    common = []
+    for student in list1:
+        if student in list2 and student not in common:
+            common.append(student)
+    return common
+
+# Function to find elements in list1 but not in list2
+def difference(list1, list2):
+    diff = []
+    for student in list1:
+        if student not in list2:
+            diff.append(student)
+    return diff
+
+# Function to find symmetric difference (students in either list1 or list2, but not both)
+def symmetric_difference(list1, list2):
+    diff1 = difference(list1, list2)
+    diff2 = difference(list2, list1)
+    return diff1 + diff2
+
+# Function to compute students who are not in two given lists
+def not_in_any(total_students, list1, list2):
+    neither = []
+    for student in total_students:
+        if student not in list1 and student not in list2:
+            neither.append(student)
+    return neither
+
+# Main program
+def main():
+    # Input total students
+    print("Enter the names of all students in the class (comma-separated):")
+    total_students = input().split(",")
+    total_students = [student.strip() for student in total_students]
+    
+    # Input students for each sport
+    cricket_players = input_students("Cricket")
+    badminton_players = input_students("Badminton")
+    football_players = input_students("Football")
+
+    # a) Students who play both cricket and badminton
+    both_cricket_and_badminton = intersection(cricket_players, badminton_players)
+    print("a) Students who play both Cricket and Badminton:", both_cricket_and_badminton)
+
+    # b) Students who play either cricket or badminton but not both
+    either_cricket_or_badminton = symmetric_difference(cricket_players, badminton_players)
+    print("b) Students who play either Cricket or Badminton but not both:", either_cricket_or_badminton)
+
+    # c) Students who play neither cricket nor badminton
+    neither_cricket_nor_badminton = not_in_any(total_students, cricket_players, badminton_players)
+    print("c) Number of students who play neither Cricket nor Badminton:", len(neither_cricket_nor_badminton))
+    print("   Students are:", neither_cricket_nor_badminton)
+
+    # d) Students who play Cricket and Football but not Badminton
+    cricket_and_football = intersection(cricket_players, football_players)
+    cricket_and_football_not_badminton = difference(cricket_and_football, badminton_players)
+    print("d) Students who play Cricket and Football but not Badminton:", cricket_and_football_not_badminton)
+
+# Run the main program
+if __name__ == "__main__":
+    main()
