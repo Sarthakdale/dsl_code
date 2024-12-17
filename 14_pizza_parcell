@@ -1,0 +1,109 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class PizzaParlor {
+private:
+    string orders[5];  // Array to store orders
+    int front, rear;
+    int maxOrders;
+
+public:
+    // Constructor to initialize the queue
+    PizzaParlor(int maxOrders) {
+        this->maxOrders = maxOrders;
+        front = rear = -1;
+    }
+
+    // Function to check if the queue is full
+    bool isFull() {
+        return (rear + 1) % maxOrders == front;
+    }
+
+    // Function to check if the queue is empty
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    // Function to add an order
+    void addOrder(string order) {
+        if (isFull()) {
+            cout << "The pizza parlor is full. Cannot take more orders." << endl;
+        } else {
+            if (front == -1) {  // If the queue is empty
+                front = rear = 0;
+            } else {
+                rear = (rear + 1) % maxOrders;
+            }
+            orders[rear] = order;
+            cout << "Order placed: " << order << endl;
+        }
+    }
+
+    // Function to serve an order
+    void serveOrder() {
+        if (isEmpty()) {
+            cout << "No orders to serve." << endl;
+        } else {
+            cout << "Serving order: " << orders[front] << endl;
+            if (front == rear) {  // Only one order left
+                front = rear = -1;  // Reset the queue
+            } else {
+                front = (front + 1) % maxOrders;
+            }
+        }
+    }
+
+    // Function to display all the orders
+    void displayOrders() {
+        if (isEmpty()) {
+            cout << "No orders in the queue." << endl;
+        } else {
+            cout << "Current orders in the queue: ";
+            int i = front;
+            while (i != rear) {
+                cout << orders[i] << " ";
+                i = (i + 1) % maxOrders;
+            }
+            cout << orders[rear] << endl;  // Display the last order
+        }
+    }
+};
+
+int main() {
+    PizzaParlor pizzaParlor(5);  // Maximum 5 orders can be taken
+    int choice;
+    string order;
+
+    while (true) {
+        cout << "\nPizza Parlor Menu" << endl;
+        cout << "1. Place an order" << endl;
+        cout << "2. Serve an order" << endl;
+        cout << "3. Display orders" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter the order: ";
+                cin.ignore();  // To ignore the newline character from the previous input
+                getline(cin, order);
+                pizzaParlor.addOrder(order);
+                break;
+            case 2:
+                pizzaParlor.serveOrder();
+                break;
+            case 3:
+                pizzaParlor.displayOrders();
+                break;
+            case 4:
+                cout << "Exiting the program." << endl;
+                return 0;  // Exit the program
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
