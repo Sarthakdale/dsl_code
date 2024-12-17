@@ -1,0 +1,59 @@
+# Function to input roll numbers into an array
+def input_roll_numbers():
+    n = int(input("Enter the number of students who attended the training program: "))
+    roll_numbers = []
+    print("Enter the roll numbers of students:")
+    for i in range(n):
+        roll = int(input(f"Enter roll number {i + 1}: "))
+        roll_numbers.append(roll)
+    return roll_numbers
+
+# Function to perform Linear Search
+def linear_search(arr, key):
+    for i in range(len(arr)):
+        if arr[i] == key:
+            return i  # Return the index where the key is found
+    return -1  # Return -1 if the key is not found
+
+# Function to perform Sentinel Search
+def sentinel_search(arr, key):
+    n = len(arr)
+    last = arr[-1]  # Save the last element
+    arr[-1] = key  # Place the key as the sentinel
+    i = 0
+    while arr[i] != key:
+        i += 1
+    arr[-1] = last  # Restore the original last element
+    
+    # Check if key was found and not due to the sentinel
+    if i < n - 1 or arr[-1] == key:
+        return i  # Return the index where the key is found
+    return -1  # Return -1 if the key is not found
+
+# Main function
+def main():
+    # Input roll numbers
+    roll_numbers = input_roll_numbers()
+    
+    # Input the roll number to search
+    key = int(input("Enter the roll number to search: "))
+    
+    # a) Linear Search
+    print("\n--- Linear Search ---")
+    linear_result = linear_search(roll_numbers, key)
+    if linear_result != -1:
+        print(f"Roll number {key} found at position {linear_result + 1} (index {linear_result}).")
+    else:
+        print(f"Roll number {key} not found.")
+    
+    # b) Sentinel Search
+    print("\n--- Sentinel Search ---")
+    sentinel_result = sentinel_search(roll_numbers, key)
+    if sentinel_result != -1:
+        print(f"Roll number {key} found at position {sentinel_result + 1} (index {sentinel_result}).")
+    else:
+        print(f"Roll number {key} not found.")
+
+# Run the main function
+if __name__ == "__main__":
+    main()
