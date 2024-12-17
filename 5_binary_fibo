@@ -1,0 +1,92 @@
+# Function to input roll numbers in sorted order
+def input_roll_numbers():
+    n = int(input("Enter the number of students who attended the training program: "))
+    print("Enter the roll numbers in **sorted order**:")
+    roll_numbers = []
+    for i in range(n):
+        roll = int(input(f"Enter roll number {i + 1}: "))
+        roll_numbers.append(roll)
+    return roll_numbers
+
+# Function to perform Binary Search
+def binary_search(arr, key):
+    low, high = 0, len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == key:
+            return mid  # Key found at index mid
+        elif arr[mid] < key:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1  # Key not found
+
+# Function to perform Fibonacci Search
+def fibonacci_search(arr, key):
+    n = len(arr)
+    # Initialize Fibonacci numbers
+    fib2 = 0  # (m-2)'th Fibonacci Number
+    fib1 = 1  # (m-1)'th Fibonacci Number
+    fib = fib1 + fib2  # m'th Fibonacci Number
+
+    # Find the smallest Fibonacci number greater than or equal to n
+    while fib < n:
+        fib2, fib1 = fib1, fib
+        fib = fib1 + fib2
+
+    offset = -1  # Marks eliminated range
+
+    while fib > 1:
+        i = min(offset + fib2, n - 1)  # Check the valid index
+
+        # If key is greater, move to the next subarray
+        if arr[i] < key:
+            fib, fib1 = fib1, fib2
+            fib2 = fib - fib1
+            offset = i
+
+        # If key is smaller, search in the previous subarray
+        elif arr[i] > key:
+            fib, fib1 = fib2, fib1 - fib2
+            fib2 = fib - fib1
+
+        # Key found
+        else:
+            return i
+
+    # Compare the last element
+    if fib1 and arr[offset + 1] == key:
+        return offset + 1
+
+    return -1  # Key not found
+
+# Function to search using both methods
+def search_roll_number(roll_numbers, key):
+    print("\n--- Binary Search ---")
+    binary_result = binary_search(roll_numbers, key)
+    if binary_result != -1:
+        print(f"Roll number {key} found at position {binary_result + 1} (index {binary_result}).")
+    else:
+        print(f"Roll number {key} not found using Binary Search.")
+
+    print("\n--- Fibonacci Search ---")
+    fibonacci_result = fibonacci_search(roll_numbers, key)
+    if fibonacci_result != -1:
+        print(f"Roll number {key} found at position {fibonacci_result + 1} (index {fibonacci_result}).")
+    else:
+        print(f"Roll number {key} not found using Fibonacci Search.")
+
+# Main function
+def main():
+    # Input roll numbers
+    roll_numbers = input_roll_numbers()
+    
+    # Input the roll number to search
+    key = int(input("Enter the roll number to search: "))
+    
+    # Search using Binary and Fibonacci Search
+    search_roll_number(roll_numbers, key)
+
+# Run the main function
+if __name__ == "__main__":
+    main()
