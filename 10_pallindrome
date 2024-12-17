@@ -1,0 +1,76 @@
+#include <iostream>
+#include <stack>
+#include <cctype>  // For isalpha and tolower
+#include <string>
+using namespace std;
+
+// Function to remove non-alphabetic characters and convert to lowercase
+string preprocessString(const string &str) {
+    string processed = "";
+    for (char c : str) {
+        if (isalpha(c)) {
+            processed += tolower(c); // Convert to lowercase
+        }
+    }
+    return processed;
+}
+
+// Function to print original string followed by reversed string using a stack
+void printOriginalAndReversed(const string &str) {
+    stack<char> charStack;
+
+    // Push each character into the stack
+    for (char c : str) {
+        charStack.push(c);
+    }
+
+    // Print the original string
+    cout << "Original String: " << str << endl;
+
+    // Print the reversed string using the stack
+    cout << "Reversed String: ";
+    while (!charStack.empty()) {
+        cout << charStack.top();
+        charStack.pop();
+    }
+    cout << endl;
+}
+
+// Function to check whether the given string is a palindrome
+bool isPalindrome(const string &str) {
+    string processed = preprocessString(str);
+
+    // Compare the processed string with its reverse
+    int left = 0;
+    int right = processed.size() - 1;
+
+    while (left < right) {
+        if (processed[left] != processed[right]) {
+            return false; // Not a palindrome
+        }
+        left++;
+        right--;
+    }
+
+    return true; // Palindrome
+}
+
+int main() {
+    string input;
+
+    // Take input from the user
+    cout << "Enter a string: ";
+    getline(cin, input);
+
+    // Print original and reversed string
+    printOriginalAndReversed(input);
+
+    // Check if the string is a palindrome
+    if (isPalindrome(input)) {
+        cout << "The given string is a palindrome!" << endl;
+    } else {
+        cout << "The given string is not a palindrome!" << endl;
+    }
+
+    return 0;
+}
