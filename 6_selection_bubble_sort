@@ -1,0 +1,61 @@
+# Function to input student percentages
+def input_percentages():
+    n = int(input("Enter the number of students: "))
+    percentages = []
+    print("Enter the percentages of students:")
+    for i in range(n):
+        percentage = float(input(f"Enter percentage of student {i + 1}: "))
+        percentages.append(percentage)
+    return percentages
+
+# Function to perform Selection Sort
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]  # Swap the elements
+
+# Function to perform Bubble Sort
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        for j in range(n - 1 - i):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]  # Swap the elements
+
+# Function to display the top 5 scores
+def display_top_five(arr):
+    print("\nTop Five Scores (Highest to Lowest):")
+    top_five = arr[-5:]  # Last five elements are the top scores in a sorted list
+    for score in reversed(top_five):
+        print(score)
+
+# Main function
+def main():
+    # Input student percentages
+    percentages = input_percentages()
+
+    # Sort using Selection Sort
+    selection_sorted = percentages.copy()  # Make a copy of the original list
+    selection_sort(selection_sorted)
+    print("\nPercentages sorted using Selection Sort (Ascending Order):")
+    print(selection_sorted)
+
+    # Display top 5 scores after Selection Sort
+    display_top_five(selection_sorted)
+
+    # Sort using Bubble Sort
+    bubble_sorted = percentages.copy()  # Make a copy of the original list
+    bubble_sort(bubble_sorted)
+    print("\nPercentages sorted using Bubble Sort (Ascending Order):")
+    print(bubble_sorted)
+
+    # Display top 5 scores after Bubble Sort
+    display_top_five(bubble_sorted)
+
+# Run the main function
+if __name__ == "__main__":
+    main()
