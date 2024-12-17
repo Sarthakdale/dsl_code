@@ -1,0 +1,103 @@
+# Function to input a matrix
+def input_matrix(rows, cols, name):
+    print(f"Enter elements of Matrix {name} row by row:")
+    matrix = []
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            element = int(input(f"Enter element at position ({i+1},{j+1}): "))
+            row.append(element)
+        matrix.append(row)
+    return matrix
+
+# Function to add two matrices
+def add_matrices(matrix1, matrix2):
+    rows = len(matrix1)
+    cols = len(matrix1[0])
+    result = []
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            row.append(matrix1[i][j] + matrix2[i][j])
+        result.append(row)
+    return result
+
+# Function to subtract two matrices
+def subtract_matrices(matrix1, matrix2):
+    rows = len(matrix1)
+    cols = len(matrix1[0])
+    result = []
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            row.append(matrix1[i][j] - matrix2[i][j])
+        result.append(row)
+    return result
+
+# Function to multiply two matrices
+def multiply_matrices(matrix1, matrix2):
+    rows_matrix1 = len(matrix1)
+    cols_matrix1 = len(matrix1[0])
+    cols_matrix2 = len(matrix2[0])
+    result = [[0 for _ in range(cols_matrix2)] for _ in range(rows_matrix1)]
+    for i in range(rows_matrix1):
+        for j in range(cols_matrix2):
+            for k in range(cols_matrix1):
+                result[i][j] += matrix1[i][k] * matrix2[k][j]
+    return result
+
+# Function to find the transpose of a matrix
+def transpose_matrix(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    transpose = [[0 for _ in range(rows)] for _ in range(cols)]
+    for i in range(rows):
+        for j in range(cols):
+            transpose[j][i] = matrix[i][j]
+    return transpose
+
+# Function to display a matrix
+def display_matrix(matrix, name):
+    print(f"\nMatrix {name}:")
+    for row in matrix:
+        print(" ".join(map(str, row)))
+
+# Main function
+def main():
+    # Input for matrices
+    rows = int(input("Enter the number of rows for Matrix A and B: "))
+    cols = int(input("Enter the number of columns for Matrix A and B: "))
+    
+    print("\n--- Input for Matrix A ---")
+    matrix_a = input_matrix(rows, cols, "A")
+    
+    print("\n--- Input for Matrix B ---")
+    matrix_b = input_matrix(rows, cols, "B")
+    
+    # a) Addition of matrices
+    matrix_sum = add_matrices(matrix_a, matrix_b)
+    display_matrix(matrix_sum, "A + B")
+    
+    # b) Subtraction of matrices
+    matrix_diff = subtract_matrices(matrix_a, matrix_b)
+    display_matrix(matrix_diff, "A - B")
+    
+    # c) Multiplication of matrices
+    print("\n--- Input for Matrix C (for multiplication with Matrix A) ---")
+    rows_c = int(input("Enter the number of rows for Matrix C: "))
+    cols_c = int(input("Enter the number of columns for Matrix C: "))
+    matrix_c = input_matrix(rows_c, cols_c, "C")
+    
+    if cols == rows_c:  # Check if matrices can be multiplied
+        matrix_product = multiply_matrices(matrix_a, matrix_c)
+        display_matrix(matrix_product, "A x C")
+    else:
+        print("\nMatrix multiplication not possible: Columns of A != Rows of C")
+    
+    # d) Transpose of a matrix
+    transpose_a = transpose_matrix(matrix_a)
+    display_matrix(transpose_a, "Transpose of A")
+
+# Run the main program
+if __name__ == "__main__":
+    main()
